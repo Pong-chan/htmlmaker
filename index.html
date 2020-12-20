@@ -1,0 +1,100 @@
+<div class="card mt-2" style="float: left; margin-left: 10px; width: 50%; height: 98vh;">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <style>
+        .buttonContainer button
+        {
+            height: 6vh;
+            width: 33.333333333333333333333333333333333333333333333333333333333%;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            font-family: sans-serif;
+            font-size: 10px;
+            background-color: #eee;
+        }
+        .buttonContainer button:hover
+        {
+            background-color: #d7d4d4;
+        }
+        .tabPanel
+        {
+            background-color: #d7d4d4;
+            height: 100%;
+            display: none;
+        }
+    </style>
+    <div class="buttonContainer">
+        <button onclick="showPanel(0, '#FF6347')">HTML</button>
+        <button onclick="showPanel(1, '#0080ff')">CSS</button>
+        <button onclick="showPanel(2, '#7CFC00')">JS</button>
+    </div>
+    <div class='tabPanel'>
+        <h6 class="text-center mt-2">Html Code</h6>
+        <textarea id='editorInput-html' class="form-control mt-4 mb-4" style="margin: auto; width: 90%; height: 80%; resize: none;"></textarea>
+        <div class="text-center">
+            <button id="BTN-editorInput-save" class="btn btn-primary text-center">Save</button> 
+            <button id="BTN-editorInput-run" class="btn btn-success text-center m">Run</button> 
+            <button id="BTN-editorInput-load" class="btn btn-secondary text-center">Load</button> 
+        </div>
+    </div>
+    <div class='tabPanel'>
+        <h6 class="text-center mt-2">Css (Already Refrenced)</h6>
+        <textarea id='editorInput-css' class="form-control mt-4 mb-4" style="margin: auto; width: 90%; height: 80%; resize: none;"></textarea>
+    </div>
+    <div class='tabPanel'>
+        <h6 class="text-center mt-2">Javascript (Already Refrenced)</h6>
+        <textarea id='editorInput-js' class="form-control mt-4" style="margin: auto; width: 90%; height: 80%; resize: none;"></textarea>
+    </div>
+</div>
+<div style="float: left; margin-left: 10px;" id='main-html' class='mt-3'>
+</div>
+<script>
+var tabButtons = document.querySelectorAll('.buttonContainer button')
+var tabPanels = document.querySelectorAll('.tabPanel')
+
+function showPanel(panelIndex, colorCode)
+{
+    tabButtons.forEach(function(node) {
+        node.style.backgroundColor = ''
+        node.style.color = ''
+    })
+    tabButtons[panelIndex].style.backgroundColor = colorCode
+    tabButtons[panelIndex].style.color = 'white'
+    tabPanels.forEach(function(node) {
+        node.style.display = 'none'
+    })
+    tabPanels[panelIndex].style.display = 'block'
+    tabPanels[panelIndex].style.backgroundColor = colorCode
+}
+showPanel(0, '#FF6347')
+
+document.getElementById('BTN-editorInput-run').onclick = function()
+{
+    const html = document.getElementById('main-html')
+
+    html.innerHTML = document.getElementById('editorInput-html').value
+
+    var css = document.createElement('style')
+    css.innerHTML = document.getElementById('editorInput-css').value
+    html.appendChild(css)
+    
+
+    var script = document.createElement('script')
+    script.innerHTML = document.getElementById('editorInput-js').value
+    html.appendChild(script)
+}
+
+document.getElementById('BTN-editorInput-save').onclick = function()
+{
+    localStorage.setItem('html', document.getElementById('editorInput-html').value)
+    localStorage.setItem('js', document.getElementById('editorInput-js').value)
+    localStorage.setItem('css', document.getElementById('editorInput-css').value)
+}
+document.getElementById('BTN-editorInput-load').onclick = function()
+{
+    document.getElementById('editorInput-html').value = localStorage.getItem('html')
+    document.getElementById('editorInput-js').value = localStorage.getItem('js')
+    document.getElementById('editorInput-css').value = localStorage.getItem('css')
+}    
+</script>
